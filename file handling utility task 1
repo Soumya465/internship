@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class FileHandlingUtility {
+
+    private static final String FILE_NAME = "codtech_file.txt";
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            writeToFile("This is the initial content of the file.\n");
+
+            System.out.println("File content after writing:");
+            readFromFile();
+
+            System.out.print("\nEnter text to modify (append) the file: ");
+            String newText = sc.nextLine();
+            modifyFile(newText + "\n");
+
+            System.out.println("\nFile content after modification:");
+            readFromFile();
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+
+    public static void writeToFile(String content) throws IOException {
+        FileWriter writer = new FileWriter(FILE_NAME);
+        writer.write(content);
+        writer.close();
+        System.out.println("File written successfully.");
+    }
+
+    public static void readFromFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
+    }
+
+    public static void modifyFile(String content) throws IOException {
+        FileWriter writer = new FileWriter(FILE_NAME, true);
+        writer.write(content);
+        writer.close();
+        System.out.println("File modified successfully.");
+    }
+}

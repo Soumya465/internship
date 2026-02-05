@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class RecommendationSystem {
+    public static void main(String[] args) {
+        Map<String, List<String>> userPreferences = new HashMap<>();
+
+        userPreferences.put("User1", Arrays.asList("Mobile", "Laptop", "Headphones"));
+        userPreferences.put("User2", Arrays.asList("Laptop", "Camera"));
+        userPreferences.put("User3", Arrays.asList("Mobile", "Camera", "Smartwatch"));
+
+        String targetUser = "User1";
+        Set<String> recommendations = new HashSet<>();
+
+        List<String> targetPrefs = userPreferences.get(targetUser);
+
+        for (Map.Entry<String, List<String>> entry : userPreferences.entrySet()) {
+            if (!entry.getKey().equals(targetUser)) {
+                for (String item : entry.getValue()) {
+                    if (!targetPrefs.contains(item)) {
+                        recommendations.add(item);
+                    }
+                }
+            }
+        }
+
+        System.out.println("Recommendations for " + targetUser);
+        for (String item : recommendations) {
+            System.out.println(item);
+        }
+    }
+}

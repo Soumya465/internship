@@ -1,0 +1,34 @@
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WeatherClient {
+    public static void main(String[] args) {
+        try {
+            String apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=28.61&longitude=77.20&current_weather=true";
+            URL url = new URL(apiUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+            br.close();
+
+            String data = response.toString();
+
+            String temp = data.substring(data.indexOf("temperature") + 13, data.indexOf(",", data.indexOf("temperature")));
+            String wind = data.substring(data.indexOf("windspeed") + 11, data.indexOf(",", data.indexOf("windspeed")));
+
+            System.out.println("------ WEATHER REPORT ------");
+            System.out.println("Temperature : " + temp + " °C");
+            System.out.println("Wind Speed  : " + wind + " km/h");
+        } catch (Exception e) {
+            System.out.println("Error occurred");
+        }
+    }
+}
